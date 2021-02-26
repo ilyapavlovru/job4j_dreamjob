@@ -6,7 +6,6 @@
     <groupId>ru.job4j</groupId>
     <artifactId>job4j_dreamjob</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
 
     <name>job4j_dreamjob</name>
 
