@@ -45,6 +45,35 @@
                             </a>
                             <c:out value="${can.name}"/>
                         </td>
+                        <td>
+                            <c:forEach items="${imagesNames}" var="imagesName">
+                                <c:if test="${can.id == imagesName}">
+                                    <img src="<c:url value='/download?name=${imagesName}.jpg'/>" width="100px" height="100px"/>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                        <td>
+                            <form action='<c:url value="/photoUpload?id=${can.id}"/>' method="get">
+                                <button type="submit">Добавить</button>
+                            </form>
+                        </td>
+                        <td>
+
+<%--                            <form action='<c:url value="/candidates.do?deleteId=${can.id}"/>' method="post">--%>
+<%--                                <button type="submit">Удалить</button>--%>
+<%--                            </form>--%>
+
+                            <form action='<c:url value="/candidates.do?id=${can.id}"/>' method="post">
+
+                                <input type="hidden" name="action" value="delete"/>
+                                <input type="submit" value="DELETE"/>
+                            </form>
+
+
+                        </td>
+
+
+
                     </tr>
                     </c:forEach>
                     </tbody>

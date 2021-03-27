@@ -14,21 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class UploadServlet extends HttpServlet {
+public class PhotoUploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // формируем список названий файлов с картинками
-        List<String> images = new ArrayList<>();
-        for (File name : new File("c:\\images\\").listFiles()) {
-            images.add(name.getName());
-        }
-        // записываем список названий файлов с картинками в req в аттрибут images
-        req.setAttribute("images", images);
+
         // с объектом диспатчер ассоциируем путь к jsp файлу
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/upload.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/photoUpload.jsp");
         // отправляем диспатчеру параметры req и resp
         dispatcher.forward(req, resp);
     }
@@ -57,6 +50,8 @@ public class UploadServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        doGet(req, resp);
+
+        req.setCharacterEncoding("UTF-8");
+        resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }
