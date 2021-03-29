@@ -1,8 +1,8 @@
 package ru.job4j.dream.servlet;
 
+import org.apache.log4j.Logger;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.store.PsqlStore;
-import ru.job4j.dream.store.Store;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,35 +18,27 @@ import java.util.stream.Collectors;
 
 public class CandidateServlet extends HttpServlet {
 
+    private final Logger logger = Logger.getLogger(CandidateServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        // получаем список кандидатов
         Collection<Candidate> candidates = PsqlStore.instOf().findAllCandidates();
-        // записываем список кандидатов в req в аттрибут candidates
         req.setAttribute("candidates", candidates);
-
-        // формируем список названий файлов с картинками
         List<String> images = new ArrayList<>();
         for (File name : new File("c:\\images\\").listFiles()) {
             images.add(name.getName());
         }
-        // записываем список названий файлов с картинками в req в аттрибут images
         req.setAttribute("images", images);
 
-        // формируем список названий файлов с картинками без расширения, чтобы была только цифра
         List<Integer> imagesNames = images.stream()
                 .map(s -> {
                     String[] str = s.split("\\.");
                     return Integer.parseInt(str[0]);
                 })
                 .collect(Collectors.toList());
-        // записываем список названий файлов с картинками без расширения в req в аттрибут imagesNames
         req.setAttribute("imagesNames", imagesNames);
 
-        // с объектом диспатчер ассоциируем путь к jsp файлу
         RequestDispatcher dispatcher = req.getRequestDispatcher("candidates.jsp");
-        // отправляем диспатчеру параметры req и resp
         dispatcher.forward(req, resp);
     }
 
@@ -59,12 +51,12 @@ public class CandidateServlet extends HttpServlet {
             try {
                 File file = new File(fileName);
                 if (file.delete()) {
-                    System.out.println(file.getName() + " is deleted!");
+                    logger.info(file.getName() + " is deleted!");
                 } else {
-                    System.out.println("Sorry, unable to delete the file.");
+                    logger.warn("Sorry, unable to delete the file.");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.warn("candidate doPost(delete) error", e);
             }
         } else if ("update".equals(req.getParameter("action"))) {
             req.setCharacterEncoding("UTF-8");
