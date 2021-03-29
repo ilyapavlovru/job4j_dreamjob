@@ -45,7 +45,8 @@
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <input type="hidden" name="action" value="update"/>
+                    <button type="submit" value="UPDATE" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
         </div>

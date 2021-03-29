@@ -53,12 +53,15 @@
                             </c:forEach>
                         </td>
                         <td>
+<%--                            todo не используется id--%>
                             <form action='<c:url value="/photoUpload?id=${can.id}"/>' method="get">
-                                <button type="submit">Добавить</button>
+                                <input type="hidden" name="action" value="add"/>
+                                <input type="hidden" name="id" value="<c:out value="${can.id}"/>"/>
+                                <input type="submit" value="Добавить"/>
                             </form>
                         </td>
-                        <td>
 
+                        <td>
 <%--                            <form action='<c:url value="/candidates.do?deleteId=${can.id}"/>' method="post">--%>
 <%--                                <button type="submit">Удалить</button>--%>
 <%--                            </form>--%>

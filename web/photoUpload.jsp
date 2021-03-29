@@ -15,7 +15,7 @@
 <div class="container">
 
     <h2>Upload image</h2>
-    <form action="<c:url value='/photoUpload'/>" method="post" enctype="multipart/form-data">
+    <form action='<c:url value="/photoUpload?id=${id}"/>' method="post" enctype="multipart/form-data">
         <div class="checkbox">
             <input type="file" name="file">
         </div>

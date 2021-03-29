@@ -20,14 +20,26 @@ public class PhotoUploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // с объектом диспатчер ассоциируем путь к jsp файлу
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/photoUpload.jsp");
-        // отправляем диспатчеру параметры req и resp
-        dispatcher.forward(req, resp);
+        if ("add".equals(req.getParameter("action"))) {
+
+            int id = Integer.parseInt(req.getParameter("id"));
+
+            // записываем id кандидата в req в аттрибут id
+            req.setAttribute("id", id);
+
+            // с объектом диспатчер ассоциируем путь к jsp файлу
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/photoUpload.jsp");
+            // отправляем диспатчеру параметры req и resp
+            dispatcher.forward(req, resp);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        int id = Integer.parseInt(req.getParameter("id"));
+
+
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletContext servletContext = this.getServletConfig().getServletContext();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -41,7 +53,7 @@ public class PhotoUploadServlet extends HttpServlet {
             }
             for (FileItem item : items) {
                 if (!item.isFormField()) {
-                    File file = new File(folder + File.separator + item.getName());
+                    File file = new File(folder + File.separator + id + ".jpg");
                     try (FileOutputStream out = new FileOutputStream(file)) {
                         out.write(item.getInputStream().readAllBytes());
                     }

@@ -20,6 +20,11 @@ public class MemStore implements Store {
 
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
 
+    @Override
+    public Candidate deleteCandidate(int id) {
+        return null;
+    }
+
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job"));
         posts.put(2, new Post(2, "Middle Java Job"));

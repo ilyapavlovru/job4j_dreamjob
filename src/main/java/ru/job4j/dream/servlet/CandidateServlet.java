@@ -52,22 +52,29 @@ public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         if ("delete".equals(req.getParameter("action"))) {
-            Integer integer = Integer.valueOf(req.getParameter("id"));
-            Integer i3nteger = Integer.valueOf(req.getParameter("id"));
+            int id = Integer.parseInt(req.getParameter("id"));
+            PsqlStore.instOf().deleteCandidate(id);
+            String fileName = "c:\\images\\" + id + ".jpg";
+            try {
+                File file = new File(fileName);
+                if (file.delete()) {
+                    System.out.println(file.getName() + " is deleted!");
+                } else {
+                    System.out.println("Sorry, unable to delete the file.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if ("update".equals(req.getParameter("action"))) {
+            req.setCharacterEncoding("UTF-8");
+            PsqlStore.instOf().saveCandidate(
+                    new Candidate(
+                            Integer.valueOf(req.getParameter("id")),
+                            req.getParameter("name")
+                    )
+            );
         }
-
-
-
-//        req.setCharacterEncoding("UTF-8");
-//        PsqlStore.instOf().saveCandidate(
-//                new Candidate(
-//                        Integer.valueOf(req.getParameter("id")),
-//                        req.getParameter("name")
-//                )
-//        );
-
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 
