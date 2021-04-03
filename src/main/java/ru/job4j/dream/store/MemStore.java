@@ -17,9 +17,17 @@ public class MemStore implements Store {
 
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
+
     private final static AtomicInteger POST_ID = new AtomicInteger(4);
 
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
+
+    private final static AtomicInteger USER_ID = new AtomicInteger(4);
+
+    public static Store instOf() {
+        return INST;
+    }
 
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job"));
@@ -28,16 +36,9 @@ public class MemStore implements Store {
         candidates.put(1, new Candidate(1, "Junior Java"));
         candidates.put(2, new Candidate(2, "Middle Java"));
         candidates.put(3, new Candidate(3, "Senior Java"));
-    }
-
-    @Override
-    public Candidate deleteCandidate(int id) {
-        return null;
-    }
-
-    @Override
-    public boolean auth(String login, String password) {
-        return false;
+        users.put(1, new User(1, "user1", "user1@local", "user1"));
+        users.put(2, new User(2, "user2", "user2@local", "user2"));
+        users.put(3, new User(3, "user3", "user3@local", "user3"));
     }
 
     @Override
@@ -46,8 +47,25 @@ public class MemStore implements Store {
     }
 
     @Override
-    public void saveUser(User user) {
+    public User findUserByEmail(String email) {
+        User rst = null;
+        for (int id : users.keySet()) {
+            User user = users.get(id);
+            if (user.getEmail().equals(email)) {
+                rst = user;
+                break;
+            }
+        }
+        return rst;
+    }
 
+    @Override
+    public User saveUser(User user) {
+        if (user.getId() == 0) {
+            user.setId(USER_ID.incrementAndGet());
+        }
+        users.put(user.getId(), user);
+        return user;
     }
 
     @Override
@@ -55,16 +73,8 @@ public class MemStore implements Store {
         return null;
     }
 
-    public static Store instOf() {
-        return INST;
-    }
-
     public Collection<Post> findAllPosts() {
         return posts.values();
-    }
-
-    public Collection<Candidate> findAllCandidates() {
-        return candidates.values();
     }
 
     public void savePost(Post post) {
@@ -78,6 +88,10 @@ public class MemStore implements Store {
         return posts.get(id);
     }
 
+    public Collection<Candidate> findAllCandidates() {
+        return candidates.values();
+    }
+
     public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
             candidate.setId(CANDIDATE_ID.incrementAndGet());
@@ -87,5 +101,10 @@ public class MemStore implements Store {
 
     public Candidate findCandidateById(int id) {
         return candidates.get(id);
+    }
+
+    @Override
+    public Candidate deleteCandidate(int id) {
+        return null;
     }
 }

@@ -8,6 +8,14 @@ import java.util.Collection;
 
 public interface Store {
 
+    User findUserById(int id);
+
+    User findUserByEmail(String email);
+
+    User saveUser(User user);
+
+    Collection<User> findAllUsers();
+
     Collection<Post> findAllPosts();
 
     void savePost(Post post);
@@ -21,12 +29,4 @@ public interface Store {
     Candidate findCandidateById(int id);
 
     Candidate deleteCandidate(int id);
-
-    boolean auth(String login, String password);
-
-    User findUserById(int id);
-
-    void saveUser(User user);
-
-    Collection<User> findAllUsers();
 }

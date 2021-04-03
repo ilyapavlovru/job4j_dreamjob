@@ -53,18 +53,18 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public boolean auth(String login, String password) {
-        return false;
-    }
-
-    @Override
     public User findUserById(int id) {
         return null;
     }
 
     @Override
-    public void saveUser(User user) {
+    public User findUserByEmail(String email) {
+        return null;
+    }
 
+    @Override
+    public User saveUser(User user) {
+        return null;
     }
 
     @Override
