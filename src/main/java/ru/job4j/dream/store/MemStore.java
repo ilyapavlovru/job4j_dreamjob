@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.util.Collection;
 import java.util.Map;
@@ -20,11 +21,6 @@ public class MemStore implements Store {
 
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
 
-    @Override
-    public Candidate deleteCandidate(int id) {
-        return null;
-    }
-
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job"));
         posts.put(2, new Post(2, "Middle Java Job"));
@@ -32,6 +28,31 @@ public class MemStore implements Store {
         candidates.put(1, new Candidate(1, "Junior Java"));
         candidates.put(2, new Candidate(2, "Middle Java"));
         candidates.put(3, new Candidate(3, "Senior Java"));
+    }
+
+    @Override
+    public Candidate deleteCandidate(int id) {
+        return null;
+    }
+
+    @Override
+    public boolean auth(String login, String password) {
+        return false;
+    }
+
+    @Override
+    public User findUserById(int id) {
+        return null;
+    }
+
+    @Override
+    public void saveUser(User user) {
+
+    }
+
+    @Override
+    public Collection<User> findAllUsers() {
+        return null;
     }
 
     public static Store instOf() {
@@ -46,14 +67,14 @@ public class MemStore implements Store {
         return candidates.values();
     }
 
-    public void save(Post post) {
+    public void savePost(Post post) {
         if (post.getId() == 0) {
             post.setId(POST_ID.incrementAndGet());
         }
         posts.put(post.getId(), post);
     }
 
-    public Post findById(int id) {
+    public Post findPostById(int id) {
         return posts.get(id);
     }
 

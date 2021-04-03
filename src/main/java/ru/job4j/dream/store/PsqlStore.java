@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Properties;
 
 public class PsqlStore implements Store {
-
     private final BasicDataSource pool = new BasicDataSource();
 
     private final Logger logger = Logger.getLogger(PsqlStore.class);
@@ -50,6 +50,26 @@ public class PsqlStore implements Store {
 
     public static Store instOf() {
         return Lazy.INST;
+    }
+
+    @Override
+    public boolean auth(String login, String password) {
+        return false;
+    }
+
+    @Override
+    public User findUserById(int id) {
+        return null;
+    }
+
+    @Override
+    public void saveUser(User user) {
+
+    }
+
+    @Override
+    public Collection<User> findAllUsers() {
+        return null;
     }
 
     @Override
@@ -87,7 +107,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public void save(Post post) {
+    public void savePost(Post post) {
         if (post.getId() == 0) {
             create(post);
         } else {
@@ -125,7 +145,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Post findById(int id) {
+    public Post findPostById(int id) {
         Post post = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE id = ?")

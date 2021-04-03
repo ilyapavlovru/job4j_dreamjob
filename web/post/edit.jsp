@@ -48,7 +48,7 @@
     String id = request.getParameter("id");
     Post post = new Post(0, "");
     if (id != null) {
-        post = PsqlStore.instOf().findById(Integer.valueOf(id));
+        post = PsqlStore.instOf().findPostById(Integer.valueOf(id));
     }
 %>
 <div class="container pt-3">
