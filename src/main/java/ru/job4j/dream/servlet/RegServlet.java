@@ -18,7 +18,7 @@ public class RegServlet extends HttpServlet {
         String password = req.getParameter("password");
         if (!name.equals("") && !email.equals("") && !password.equals("")) {
             req.setCharacterEncoding("UTF-8");
-            User user = MemStore.instOf().saveUser(
+            MemStore.instOf().saveUser(
                     new User(
                             0,
                             name,
@@ -27,7 +27,7 @@ public class RegServlet extends HttpServlet {
                     )
             );
             HttpSession sc = req.getSession();
-            User sessionUser = new User(user.getName(), user.getEmail());
+            User sessionUser = new User(name, email);
             sc.setAttribute("user", sessionUser);
             resp.sendRedirect(req.getContextPath() + "/posts.do");
         } else {

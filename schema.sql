@@ -1,0 +1,22 @@
+create table dreamjob_user
+(
+    id       serial not null
+        constraint user_pkey primary key,
+    name     varchar(50),
+    email    varchar(50),
+    password varchar(50)
+);
+
+create table candidate
+(
+    id   serial not null
+        constraint candidate_pkey primary key,
+    name text
+);
+
+create table post
+(
+    id   serial not null
+        constraint post_pkey primary key,
+    name text
+);

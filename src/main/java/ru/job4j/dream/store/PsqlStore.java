@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class PsqlStore implements Store {
+
     private final BasicDataSource pool = new BasicDataSource();
 
     private final Logger logger = Logger.getLogger(PsqlStore.class);
@@ -54,22 +55,101 @@ public class PsqlStore implements Store {
 
     @Override
     public User findUserById(int id) {
-        return null;
+        User user = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob_user WHERE id = ?")
+        ) {
+            ps.setInt(1, id);
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    user = new User(it.getInt("id"), it.getString("name"),
+                            it.getString("email"), it.getString("password"));
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("find user by id error", e);
+        }
+        return user;
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return null;
+        User user = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob_user where email = ?")
+        ) {
+            ps.setString(1, email);
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    user = new User(it.getInt("id"), it.getString("name"),
+                            it.getString("email"), it.getString("password"));
+
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("find user by email error", e);
+        }
+        return user;
     }
 
     @Override
-    public User saveUser(User user) {
-        return null;
+    public void saveUser(User user) {
+        if (user.getId() == 0) {
+            createUser(user);
+        } else {
+            updateUser(user);
+        }
+    }
+
+    private User createUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO dreamjob_user(name, email, password) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("create user error", e);
+        }
+        return user;
+    }
+
+    private void updateUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("UPDATE dreamjob_user SET name = ?, email = ?, password = ? WHERE id = ?", PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getId());
+            ps.execute();
+        } catch (Exception e) {
+            logger.warn("update user error", e);
+        }
     }
 
     @Override
     public Collection<User> findAllUsers() {
-        return null;
+        List<User> users = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob_user")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    users.add(new User(it.getInt("id"), it.getString("name"),
+                            it.getString("email"), it.getString("password")));
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("findAllUsers error", e);
+        }
+        return users;
     }
 
     @Override

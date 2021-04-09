@@ -43,6 +43,11 @@ public class MemStore implements Store {
 
     @Override
     public User findUserById(int id) {
+        for (int curId : users.keySet()) {
+            if (curId == id) {
+                return users.get(curId);
+            }
+        }
         return null;
     }
 
@@ -60,17 +65,16 @@ public class MemStore implements Store {
     }
 
     @Override
-    public User saveUser(User user) {
+    public void saveUser(User user) {
         if (user.getId() == 0) {
             user.setId(USER_ID.incrementAndGet());
         }
         users.put(user.getId(), user);
-        return user;
     }
 
     @Override
     public Collection<User> findAllUsers() {
-        return null;
+        return users.values();
     }
 
     public Collection<Post> findAllPosts() {

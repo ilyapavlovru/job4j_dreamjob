@@ -12,7 +12,7 @@ public interface Store {
 
     User findUserByEmail(String email);
 
-    User saveUser(User user);
+    void saveUser(User user);
 
     Collection<User> findAllUsers();
 
