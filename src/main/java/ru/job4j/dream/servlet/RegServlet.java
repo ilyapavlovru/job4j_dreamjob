@@ -1,7 +1,7 @@
 package ru.job4j.dream.servlet;
 
 import ru.job4j.dream.model.User;
-import ru.job4j.dream.store.MemStore;
+import ru.job4j.dream.store.PsqlStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,9 +16,11 @@ public class RegServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        if (!name.equals("") && !email.equals("") && !password.equals("")) {
+
+        User existingUser = PsqlStore.instOf().findUserByEmail(email);
+        if (existingUser == null) {
             req.setCharacterEncoding("UTF-8");
-            MemStore.instOf().saveUser(
+            PsqlStore.instOf().saveUser(
                     new User(
                             0,
                             name,
@@ -31,7 +33,7 @@ public class RegServlet extends HttpServlet {
             sc.setAttribute("user", sessionUser);
             resp.sendRedirect(req.getContextPath() + "/posts.do");
         } else {
-            req.setAttribute("error", "Необходимо заполнить все поля");
+            req.setAttribute("error", "Пользователь с таким email уже существует!");
             req.getRequestDispatcher("reg.jsp").forward(req, resp);
         }
     }
