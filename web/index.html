@@ -25,8 +25,8 @@
             return false;
         }
 
-        const sexMale = $("#sexMale").prop('checked')
-        const sexFemale = $("#sexFemale").prop('checked')
+        const sexMale = $("#sexMale").prop('checked');
+        const sexFemale = $("#sexFemale").prop('checked');
         if (sexMale === false && sexFemale === false) {
             alert("Укажите ваш пол");
             return false;
@@ -38,6 +38,29 @@
             return false;
         }
     }
+
+    function addRow() {
+
+        if (validate() === false) {
+            return false;
+        }
+
+        const name = $('#name').val();
+        const lastName = $('#lastName').val();
+        const sexMale = $("#sexMale").prop('checked');
+
+        let chosenSex;
+        if (sexMale === true) {
+            chosenSex = 'Мужской';
+        } else {
+            chosenSex = 'Женский';
+        }
+
+        const description = $('#description').val();
+
+        $('#table tr:last').after('<tr><td>' + name +'</td><td>' + lastName +'</td><td>' + chosenSex +'</td><td>' + description +'</td></tr>');
+    }
+
 </script>
 
 <div class="container">
@@ -78,7 +101,7 @@
 
 <div class="container">
     <h2>Таблица</h2>
-    <table class="table table-hover">
+    <table class="table table-hover" id='table'>
         <thead>
         <tr>
             <th>Имя</th>
@@ -108,6 +131,7 @@
         </tr>
         </tbody>
     </table>
+    <button type="button" class="btn" onclick="addRow()">Добавить</button>
 </div>
 
 </body>
