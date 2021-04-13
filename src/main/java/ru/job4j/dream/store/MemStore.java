@@ -42,16 +42,6 @@ public class MemStore implements Store {
     }
 
     @Override
-    public User findUserById(int id) {
-        for (int curId : users.keySet()) {
-            if (curId == id) {
-                return users.get(curId);
-            }
-        }
-        return null;
-    }
-
-    @Override
     public User findUserByEmail(String email) {
         User rst = null;
         for (int id : users.keySet()) {
@@ -70,11 +60,6 @@ public class MemStore implements Store {
             user.setId(USER_ID.incrementAndGet());
         }
         users.put(user.getId(), user);
-    }
-
-    @Override
-    public Collection<User> findAllUsers() {
-        return users.values();
     }
 
     public Collection<Post> findAllPosts() {

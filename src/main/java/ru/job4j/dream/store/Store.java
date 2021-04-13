@@ -8,13 +8,9 @@ import java.util.Collection;
 
 public interface Store {
 
-    User findUserById(int id);
-
     User findUserByEmail(String email);
 
     void saveUser(User user);
-
-    Collection<User> findAllUsers();
 
     Collection<Post> findAllPosts();
 

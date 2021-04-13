@@ -54,25 +54,6 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public User findUserById(int id) {
-        User user = null;
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob_user WHERE id = ?")
-        ) {
-            ps.setInt(1, id);
-            try (ResultSet it = ps.executeQuery()) {
-                while (it.next()) {
-                    user = new User(it.getInt("id"), it.getString("name"),
-                            it.getString("email"), it.getString("password"));
-                }
-            }
-        } catch (Exception e) {
-            logger.warn("find user by id error", e);
-        }
-        return user;
-    }
-
-    @Override
     public User findUserByEmail(String email) {
         User user = null;
         try (Connection cn = pool.getConnection();
@@ -103,7 +84,9 @@ public class PsqlStore implements Store {
 
     private User createUser(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO dreamjob_user(name, email, password) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO dreamjob_user(name, email, password) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
@@ -122,7 +105,9 @@ public class PsqlStore implements Store {
 
     private void updateUser(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("UPDATE dreamjob_user SET name = ?, email = ?, password = ? WHERE id = ?", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE dreamjob_user SET name = ?, email = ?, password = ? WHERE id = ?",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
@@ -132,24 +117,6 @@ public class PsqlStore implements Store {
         } catch (Exception e) {
             logger.warn("update user error", e);
         }
-    }
-
-    @Override
-    public Collection<User> findAllUsers() {
-        List<User> users = new ArrayList<>();
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob_user")
-        ) {
-            try (ResultSet it = ps.executeQuery()) {
-                while (it.next()) {
-                    users.add(new User(it.getInt("id"), it.getString("name"),
-                            it.getString("email"), it.getString("password")));
-                }
-            }
-        } catch (Exception e) {
-            logger.warn("findAllUsers error", e);
-        }
-        return users;
     }
 
     @Override
