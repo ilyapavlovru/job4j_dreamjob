@@ -21,6 +21,23 @@
 </head>
 <body>
 
+<script>
+    function validate() {
+
+        const email = $('#email').val();
+        if (email === "") {
+            alert("Укажите ваш email");
+            return false;
+        }
+
+        const pass = $('#pass').val();
+        if (pass === "") {
+            alert("Укажите ваш пароль");
+            return false;
+        }
+    }
+</script>
+
 <div class="row">
     <ul class="nav">
         <li class="nav-item">
@@ -40,13 +57,13 @@
                 <form action="<%=request.getContextPath()%>/auth.do" method="post">
                     <div class="form-group">
                         <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
+                        <input type="text" class="form-control" id="email" name="email">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="text" class="form-control" name="password">
+                        <input type="text" class="form-control" id="pass" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="submit" class="btn btn-primary" onclick="validate()">Войти</button>
                 </form>
             </div>
         </div>
