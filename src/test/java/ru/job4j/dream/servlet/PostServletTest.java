@@ -1,8 +1,10 @@
 package ru.job4j.dream.servlet;
 
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -30,24 +32,11 @@ import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PsqlStore.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PostServletTest {
 
     @Test
-    public void whenAddPostThenStoreIt() throws IOException {
-        Store store = MemStore.instOf();
-        PowerMockito.mockStatic(PsqlStore.class);
-        Mockito.when(PsqlStore.instOf()).thenReturn(store);
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-        when(req.getParameter("id")).thenReturn("0");
-        when(req.getParameter("name")).thenReturn("Java Senior Job");
-        new PostServlet().doPost(req, resp);
-        Post post = store.findAllPosts().stream().reduce((a, b) -> b).orElse(null);
-        assertThat(post.getName(), is("Java Senior Job"));
-    }
-
-    @Test
-    public void whenGetPostsThenCheckRedirectToPage() throws IOException, ServletException {
+    public void testAGetPosts() throws IOException, ServletException {
         Store store = MemStore.instOf();
         Collection<Post> posts = new ArrayList<>();
         posts.add(new Post(1, "Junior Java Job"));
@@ -77,6 +66,20 @@ public class PostServletTest {
                 .map(Post::getName)
                 .collect(Collectors.toList());
 
-        Assert.assertEquals(actualPostNames, expectedPostNames);
+        Assert.assertEquals(expectedPostNames, actualPostNames);
+    }
+
+    @Test
+    public void testBAddPost() throws IOException {
+        Store store = MemStore.instOf();
+        PowerMockito.mockStatic(PsqlStore.class);
+        Mockito.when(PsqlStore.instOf()).thenReturn(store);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        when(req.getParameter("id")).thenReturn("0");
+        when(req.getParameter("name")).thenReturn("Java Senior Job");
+        new PostServlet().doPost(req, resp);
+        Post post = store.findAllPosts().stream().reduce((a, b) -> b).orElse(null);
+        assertThat(post.getName(), is("Java Senior Job"));
     }
 }
