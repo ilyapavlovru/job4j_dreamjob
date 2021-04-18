@@ -60,6 +60,28 @@
 
 <script>
 
+    $(document).ready(function() {
+
+        const el = document.getElementById('citySelector');
+
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/dreamjob/cities',
+            data: 'name=' + $('#exampleInputEmail1').val(),
+            dataType: 'json'
+        }).done(function (response) {
+            response.forEach(function (arrayItem) {
+
+                el.append(new Option(arrayItem.name, arrayItem.id));
+                alert(arrayItem.name);
+
+            });
+        }).fail(function (err) {
+            alert(err);
+        });
+
+    });
+
     function sendGreeting() {
         $.ajax({
             type: 'GET',
@@ -114,22 +136,31 @@
                 Редактирование кандидата.
                 <% } %>
             </div>
+
             <div class="card-body">
+
                 <form action="<%=request.getContextPath()%>/candidates.do?id=<%=can.getId()%>" method="post">
+
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
                     </div>
-                    <div class="input-field col s12">
-                        <label>Город</label>
-                        <select class="js-city" name="cityId">
-                            <option value="0">Выберите город</option>
+
+                    <div class="form-group">
+                        <label for="citySelector">Город:</label>
+                        <select class="form-control" id="citySelector">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
                         </select>
                     </div>
+
                     <input type="hidden" name="action" value="update"/>
                     <button type="submit" value="UPDATE" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
+
         </div>
     </div>
 </div>
