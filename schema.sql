@@ -20,3 +20,10 @@ create table post
         constraint post_pkey primary key,
     name text
 );
+
+create table city
+(
+    id   serial not null
+        constraint city_pkey primary key,
+    name text
+);

@@ -1,6 +1,7 @@
 package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
@@ -18,6 +19,8 @@ public class MemStore implements Store {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
+
+    private final Map<Integer, City> cities = new ConcurrentHashMap<>();
 
     private final static AtomicInteger POST_ID = new AtomicInteger(4);
 
@@ -39,6 +42,9 @@ public class MemStore implements Store {
         users.put(1, new User(1, "user1", "user1@local", "user1"));
         users.put(2, new User(2, "user2", "user2@local", "user2"));
         users.put(3, new User(3, "user3", "user3@local", "user3"));
+        cities.put(1, new City(1, "Moscow"));
+        cities.put(2, new City(2, "Saint Petersburg"));
+        cities.put(3, new City(3, "Murmansk"));
     }
 
     @Override
@@ -95,5 +101,10 @@ public class MemStore implements Store {
     @Override
     public Candidate deleteCandidate(int id) {
         return null;
+    }
+
+    @Override
+    public Collection<City> findAllCities() {
+        return cities.values();
     }
 }
