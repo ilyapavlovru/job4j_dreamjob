@@ -59,68 +59,46 @@
 %>
 
 <script>
-
     $(document).ready(function () {
         const el = document.getElementById('citySelector');
         let curCityId = <%=can.getCityId()%>;
         $.ajax({
             type: 'GET',
             url: 'http://localhost:8080/dreamjob/cities',
-            data: 'name=' + $('#exampleInputEmail1').val(),
             dataType: 'json'
         }).done(function (response) {
             response.forEach(function (arrayItem) {
-
                 el.append(new Option(arrayItem.name, arrayItem.id));
-
-
-                alert(curCityId)
-
             });
             el.value = curCityId;
         }).fail(function (err) {
             alert(err);
         });
-
     });
 
-    function sendGreeting() {
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/dreamjob/cities',
-            data: 'name=' + $('#exampleInputEmail1').val(),
-            dataType: 'json'
-        }).done(function (response) {
-            response.forEach(function (arrayItem) {
-
-                alert(arrayItem.name);
-            });
-        }).fail(function (err) {
-            alert(err);
-        });
+    function validate() {
+        const name = $('#name').val();
+        if (name === "") {
+            alert("Укажите ваше имя");
+            return false;
+        }
+        const cityId = $('#citySelector').val();
+        if (cityId === "0") {
+            alert("Укажите ваш город");
+            return false;
+        }
     }
-</script>
 
-<div class="container">
-    <h2 id="myHeader"></h2>
-    <form>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                   placeholder="Enter email">
-        </div>
-        <button type="button" class="btn btn-primary" onclick="sendGreeting()">Submit</button>
-    </form>
-</div>
+</script>
 
 <div class="container pt-3">
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
-                Новый кандидат.
+                Новый кандидат
                 <% } else { %>
-                Редактирование кандидата.
+                Редактирование кандидата
                 <% } %>
             </div>
 
@@ -130,7 +108,7 @@
 
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
+                        <input type="text" class="form-control" id="name" name="name" value="<%=can.getName()%>">
                     </div>
 
                     <div class="form-group">
@@ -141,7 +119,7 @@
                     </div>
 
                     <input type="hidden" name="action" value="update"/>
-                    <button type="submit" value="UPDATE" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" value="UPDATE" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>
             </div>
 
