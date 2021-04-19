@@ -78,6 +78,7 @@
                         <label>Название</label>
                         <input type="text" class="form-control" id="name" name="name" value="<%=post.getName()%>">
                     </div>
+                    <input type="hidden" name="action" value="update"/>
                     <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>
             </div>

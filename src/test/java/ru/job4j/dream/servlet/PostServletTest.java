@@ -77,6 +77,7 @@ public class PostServletTest {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn("0");
+        when(req.getParameter("action")).thenReturn("update");
         when(req.getParameter("name")).thenReturn("Java Senior Job");
         new PostServlet().doPost(req, resp);
         Post post = store.findAllPosts().stream().reduce((a, b) -> b).orElse(null);

@@ -53,11 +53,6 @@
             </div>
             <div class="card-body">
                 <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Названия</th>
-                    </tr>
-                    </thead>
                     <tbody>
                     <c:forEach items="${posts}" var="post">
                         <tr>
@@ -67,6 +62,14 @@
                                 </a>
                                 <c:out value="${post.name}"/>
                             </td>
+
+                            <td>
+                                <form action='<c:url value="/posts.do?id=${post.id}"/>' method="post">
+                                    <input type="hidden" name="action" value="delete"/>
+                                    <input type="submit" value="Удалить"/>
+                                </form>
+                            </td>
+
                         </tr>
                     </c:forEach>
                     </tbody>

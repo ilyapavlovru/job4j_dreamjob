@@ -42,7 +42,7 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Сегодняшние вакансии.
+                Сегодняшние вакансии
             </div>
             <div class="card-body">
             </div>
@@ -51,7 +51,7 @@
     <div class="row pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Сегодняшние кандидаты.
+                Сегодняшние кандидаты
             </div>
             <div class="card-body">
             </div>

@@ -214,6 +214,25 @@ public class PsqlStore implements Store {
     }
 
     @Override
+    public Post deletePost(int id) {
+        Post post = findPostById(id);
+        if (post != null) {
+            try (Connection cn = pool.getConnection();
+                 PreparedStatement ps = cn.prepareStatement("DELETE FROM post WHERE id = ?")
+            ) {
+                ps.setInt(1, id);
+                int affectedRows = ps.executeUpdate();
+                if (affectedRows == 1) {
+                    return post;
+                }
+            } catch (Exception e) {
+                logger.warn("delete post error", e);
+            }
+        }
+        return post;
+    }
+
+    @Override
     public Candidate findCandidateById(int id) {
         Candidate candidate = null;
         try (Connection cn = pool.getConnection();

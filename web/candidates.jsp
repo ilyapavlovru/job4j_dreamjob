@@ -52,11 +52,6 @@
             </div>
             <div class="card-body">
                 <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Названия</th>
-                    </tr>
-                    </thead>
                     <tbody>
                     <c:forEach items="${candidates}" var="can">
                     <tr>

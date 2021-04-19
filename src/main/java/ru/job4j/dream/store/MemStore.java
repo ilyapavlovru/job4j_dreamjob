@@ -83,6 +83,11 @@ public class MemStore implements Store {
         return posts.get(id);
     }
 
+    @Override
+    public Post deletePost(int id) {
+        return null;
+    }
+
     public Collection<Candidate> findAllCandidates() {
         return candidates.values();
     }

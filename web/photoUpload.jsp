@@ -13,12 +13,12 @@
 <body>
 
 <div class="container">
-    <h2>Upload image</h2>
+    <h2>Загрузка аватара</h2>
     <form action='<c:url value="/photoUpload?id=${id}"/>' method="post" enctype="multipart/form-data">
         <div class="checkbox">
             <input type="file" name="file">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Сохранить</button>
     </form>
 </div>
 

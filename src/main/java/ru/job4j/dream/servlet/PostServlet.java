@@ -25,13 +25,18 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.setCharacterEncoding("UTF-8");
-        PsqlStore.instOf().savePost(
-                new Post(
-                        Integer.valueOf(req.getParameter("id")),
-                        req.getParameter("name")
-                )
-        );
+        if ("delete".equals(req.getParameter("action"))) {
+            int id = Integer.parseInt(req.getParameter("id"));
+            PsqlStore.instOf().deletePost(id);
+        } else if ("update".equals(req.getParameter("action"))) {
+            req.setCharacterEncoding("UTF-8");
+            PsqlStore.instOf().savePost(
+                    new Post(
+                            Integer.valueOf(req.getParameter("id")),
+                            req.getParameter("name")
+                    )
+            );
+        }
         resp.sendRedirect(req.getContextPath() + "/posts.do");
     }
 }
