@@ -11,7 +11,8 @@ create table candidate
 (
     id   serial not null
         constraint candidate_pkey primary key,
-    name text
+    name text,
+    city_id      integer   constraint candidate_city_id_fk  references city
 );
 
 create table post

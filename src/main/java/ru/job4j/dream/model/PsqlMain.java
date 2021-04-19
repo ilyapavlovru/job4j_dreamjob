@@ -15,11 +15,11 @@ public class PsqlMain {
         System.out.println(post.getId() + " " + post.getName());
 
         System.out.println("");
-        store.saveCandidate(new Candidate(0, "Java Candidate"));
+        store.saveCandidate(new Candidate(0, "Java Candidate", 2));
         for (Candidate candidate : store.findAllCandidates()) {
             System.out.println(candidate.getId() + " " + candidate.getName());
         }
-        store.saveCandidate(new Candidate(1, "Java Middle Candidate"));
+        store.saveCandidate(new Candidate(1, "Java Middle Candidate", 2));
         Candidate candidate = store.findCandidateById(1);
         System.out.println(candidate.getId() + " " + candidate.getName());
     }

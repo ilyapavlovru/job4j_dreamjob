@@ -36,9 +36,9 @@ public class MemStore implements Store {
         posts.put(1, new Post(1, "Junior Java Job"));
         posts.put(2, new Post(2, "Middle Java Job"));
         posts.put(3, new Post(3, "Senior Java Job"));
-        candidates.put(1, new Candidate(1, "Junior Java"));
-        candidates.put(2, new Candidate(2, "Middle Java"));
-        candidates.put(3, new Candidate(3, "Senior Java"));
+        candidates.put(1, new Candidate(1, "Junior Java", 2));
+        candidates.put(2, new Candidate(2, "Middle Java", 2));
+        candidates.put(3, new Candidate(3, "Senior Java", 2));
         users.put(1, new User(1, "user1", "user1@local", "user1"));
         users.put(2, new User(2, "user2", "user2@local", "user2"));
         users.put(3, new User(3, "user3", "user3@local", "user3"));

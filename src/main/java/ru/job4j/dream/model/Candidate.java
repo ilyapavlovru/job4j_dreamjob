@@ -7,9 +7,10 @@ public class Candidate {
     private String name;
     private int cityId;
 
-    public Candidate(int id, String name) {
+    public Candidate(int id, String name, int cityId) {
         this.id = id;
         this.name = name;
+        this.cityId = cityId;
     }
 
     public int getId() {

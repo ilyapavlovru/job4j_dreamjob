@@ -52,7 +52,7 @@
 
 <%
     String id = request.getParameter("id");
-    Candidate can = new Candidate(0, "");
+    Candidate can = new Candidate(0, "", 0);
     if (id != null) {
         can = PsqlStore.instOf().findCandidateById(Integer.valueOf(id));
     }
@@ -60,10 +60,9 @@
 
 <script>
 
-    $(document).ready(function() {
-
+    $(document).ready(function () {
         const el = document.getElementById('citySelector');
-
+        let curCityId = <%=can.getCityId()%>;
         $.ajax({
             type: 'GET',
             url: 'http://localhost:8080/dreamjob/cities',
@@ -73,9 +72,12 @@
             response.forEach(function (arrayItem) {
 
                 el.append(new Option(arrayItem.name, arrayItem.id));
-                alert(arrayItem.name);
+
+
+                alert(curCityId)
 
             });
+            el.value = curCityId;
         }).fail(function (err) {
             alert(err);
         });
@@ -98,21 +100,6 @@
         });
     }
 </script>
-
-<%--<script>--%>
-<%--    function sendGreeting() {--%>
-<%--        $.ajax({--%>
-<%--            type: 'GET',--%>
-<%--            url: 'http://localhost:8080/dreamjob/cities',--%>
-<%--            data: 'name=' + $('#exampleInputEmail1').val(),--%>
-<%--            dataType: 'text'--%>
-<%--        }).done(function(data) {--%>
-<%--            alert(data);--%>
-<%--        }).fail(function(err){--%>
-<%--            alert(err);--%>
-<%--        });--%>
-<%--    }--%>
-<%--</script>--%>
 
 <div class="container">
     <h2 id="myHeader"></h2>
@@ -148,11 +135,8 @@
 
                     <div class="form-group">
                         <label for="citySelector">Город:</label>
-                        <select class="form-control" id="citySelector">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                        <select class="form-control" id="citySelector" name = "cityId">
+                            <option value="0">Выберите город</option>
                         </select>
                     </div>
 
