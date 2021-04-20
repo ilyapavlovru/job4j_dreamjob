@@ -15,7 +15,15 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) sreq;
+        ((HttpServletResponse) sresp).addHeader("Access-Control-Allow-Origin", "*");
+        ((HttpServletResponse) sresp).addHeader("Access-Control-Allow-Methods", "GET, OPTIONS, HEAD, PUT, POST");
         HttpServletResponse resp = (HttpServletResponse) sresp;
+
+        if (req.getMethod().equals("OPTIONS")) {
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            return;
+        }
+
         String uri = req.getRequestURI();
         if (uri.endsWith("auth.do") || uri.endsWith("reg.do")) {
             chain.doFilter(sreq, sresp);
