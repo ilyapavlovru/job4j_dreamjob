@@ -4,11 +4,22 @@
 Проект "Работа мечты"
 =====================
 
-Проект для изучения Java EE.
+**О проекте:**
 
+Проект для изучения Java EE.
 Данное приложение - биржа работы.
-В системе будут два типа пользователей: кандидаты и рекрутеры. Кандидаты будут публиковать резюме. Рекрутеры будут публиковать вакансии о работе.
+В системе два типа пользователей: кандидаты и рекрутеры. Кандидаты могут публиковать резюме. Рекрутеры могут публиковать вакансии о работе.
 Кандидаты могут откликнуться на вакансию. Менеджер может пригласить на вакансию кандидата.
+
+**Используемые технологии:**
+* Java 12
+* Java EE Servlets, JSP, JSTL
+* PostgreSQL, JDBC
+* JUnit, Mockito, PowerMock
+* Maven, Tomcat
+* HTML, JavaScript, jQuery, JSON
+
+**Использование:**
 
 Регистрация пользователя
 ![ScreenShot](images/2021-04-19_115143.png)
@@ -36,3 +47,8 @@
 
 Добавление новой вакансии
 ![ScreenShot](images/2021-04-19_125220.png)
+
+**Контакты:**
+
+[![telegram](https://img.shields.io/badge/Telegram-gray?style=for-the-badge&logo=Telegram&logoColor=white)](https://t.me/pavlovilyaru)
+[![email](https://img.shields.io/badge/Mail.Ru-blue?style=for-the-badge&logo=Mail.Ru&logoColor=white)](mailto:ilya.pavlov@list.ru)
